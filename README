@@ -1,0 +1,14 @@
+GKrellM-gkfreq
+
+A plugin to GKrellM that displays the current CPU frequencies. The plugin was 
+originally written by Brad Davis.
+
+The plugin currently supports up to eight CPUs. In GKrellM there will end up 
+eight gkfreq_cpuX plugins, one per CPU. Only activate as many as you have CPUs.
+
+Homepage:
+https://sourceforge.net/projects/gkrellm-gkfreq/
+
+Authors:
+Brad Davis <brad@peakunix.net> (version 1.0)
+Erik Kjellson <erikiiofph7@users.sourceforge.net>
