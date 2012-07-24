@@ -36,8 +36,8 @@
 #include <string.h>
 #include <unistd.h>
 
-#define	CONFIG_NAME	"gkfreq_cpu0"
-#define	STYLE_NAME	"gkfreq_cpu0"
+#define	CONFIG_NAME	"gkfreq_" CPU
+#define	STYLE_NAME	"gkfreq_" CPU
 
 static GkrellmMonitor	*monitor;
 static GkrellmPanel	*panel;
@@ -56,7 +56,7 @@ static
 void read_MHz(char* buffer_, size_t bufsz_)
 {
    FILE *f;
-   if ( (f = fopen("/sys/devices/system/cpu/cpu0/cpufreq/scaling_cur_freq", "r")) == NULL) {
+   if ( (f = fopen("/sys/devices/system/cpu/" CPU "/cpufreq/scaling_cur_freq", "r")) == NULL) {
 
        snprintf(buffer_, bufsz_, "n/a MHz");
    }
