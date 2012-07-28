@@ -1,55 +1,14 @@
-all: gkfreq_cpu0.so gkfreq_cpu1.so gkfreq_cpu2.so gkfreq_cpu3.so gkfreq_cpu4.so gkfreq_cpu5.so gkfreq_cpu6.so gkfreq_cpu7.so
+gkfreq_cpus.so: gkfreq_cpus.o formatter.o
+	gcc -shared -o gkfreq_cpus.so gkfreq_cpus.o formatter.o
 
-gkfreq_cpu0.o: gkfreq_cpu.c
-	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -DCPU=\"cpu0\" -o gkfreq_cpu0.o -c gkfreq_cpu.c
+formatter.o: formatter.c
+	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -o formatter.o -c formatter.c
 
-gkfreq_cpu0.so: gkfreq_cpu0.o
-	gcc -shared -o gkfreq_cpu0.so gkfreq_cpu0.o
-
-gkfreq_cpu1.o: gkfreq_cpu.c
-	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -DCPU=\"cpu1\" -o gkfreq_cpu1.o -c gkfreq_cpu.c
-
-gkfreq_cpu1.so: gkfreq_cpu1.o
-	gcc -shared -o gkfreq_cpu1.so gkfreq_cpu1.o
-
-gkfreq_cpu2.o: gkfreq_cpu.c
-	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -DCPU=\"cpu2\" -o gkfreq_cpu2.o -c gkfreq_cpu.c
-
-gkfreq_cpu2.so: gkfreq_cpu2.o
-	gcc -shared -o gkfreq_cpu2.so gkfreq_cpu2.o
-
-gkfreq_cpu3.o: gkfreq_cpu.c
-	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -DCPU=\"cpu3\" -o gkfreq_cpu3.o -c gkfreq_cpu.c
-
-gkfreq_cpu3.so: gkfreq_cpu3.o
-	gcc -shared -o gkfreq_cpu3.so gkfreq_cpu3.o
-
-gkfreq_cpu4.o: gkfreq_cpu.c
-	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -DCPU=\"cpu4\" -o gkfreq_cpu4.o -c gkfreq_cpu.c
-
-gkfreq_cpu4.so: gkfreq_cpu4.o
-	gcc -shared -o gkfreq_cpu4.so gkfreq_cpu4.o
-
-gkfreq_cpu5.o: gkfreq_cpu.c
-	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -DCPU=\"cpu5\" -o gkfreq_cpu5.o -c gkfreq_cpu.c
-
-gkfreq_cpu5.so: gkfreq_cpu5.o
-	gcc -shared -o gkfreq_cpu5.so gkfreq_cpu5.o
-
-gkfreq_cpu6.o: gkfreq_cpu.c
-	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -DCPU=\"cpu6\" -o gkfreq_cpu6.o -c gkfreq_cpu.c
-
-gkfreq_cpu6.so: gkfreq_cpu6.o
-	gcc -shared -o gkfreq_cpu6.so gkfreq_cpu6.o
-
-gkfreq_cpu7.o: gkfreq_cpu.c
-	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -DCPU=\"cpu7\" -o gkfreq_cpu7.o -c gkfreq_cpu.c
-
-gkfreq_cpu7.so: gkfreq_cpu7.o
-	gcc -shared -o gkfreq_cpu7.so gkfreq_cpu7.o
+gkfreq_cpus.o: gkfreq_cpu.c
+	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -o gkfreq_cpus.o -c gkfreq_cpu.c
 
 clean:
-	rm -rf *.o *.so
+	rm -rf *.o *.so a.out
 
 install:
 	cp gkfreq*.so /usr/lib/gkrellm2/plugins/
