@@ -87,6 +87,12 @@ int main(void) {
         assertEqualsS(result, "1.4²0.8²");
     }
 
+    {
+        int frequencies[8] = { 1400000, 1400000, 800000, 800000, 800000 };
+        formatFrequencies(result, frequencies, 4);
+        assertEqualsS(result, "1.4²0.8²");
+    }
+
     printf("%f seconds\n", getElapsedSecondsSince(&start));
 
     return 0;

@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-void formatFrequencies(char* info, int* freq, int count) {
+void formatFrequencies(char* info, int* freq, int nCpus) {
     int less(const void* v1, const void* v2) {
         const int* p1 = v1;
         const int* p2 = v2;
@@ -33,27 +33,27 @@ void formatFrequencies(char* info, int* freq, int count) {
         return "¨";
     }
 
-    int getMultiplicity(int* f) {
+    int getMultiplicity(int* f, int max) {
         int r = 1;
 
-        while (f[0] == f[r]) {
+        while (f[0] == f[r] && r < max) {
             ++r;
         }
 
         return r;
     }
 
-    qsort(freq, count, sizeof(int), less);
+    qsort(freq, nCpus, sizeof(int), less);
 
-    if (freq[0] == freq[count - 1]) {
+    if (freq[0] == freq[nCpus - 1]) {
         sameFrequency(freq[0]);
     } else {
         int i = 0;
         info[0] = 0;
 
-        while (i < count) {
+        while (i < nCpus) {
             if (freq[i]) {
-                int mult = getMultiplicity(freq + i);
+                int mult = getMultiplicity(freq + i, nCpus - i);
                 sprintf(info + strlen(info),
                         "%.1f%s",
                         freq[i] * 1e-6, multiplicity(mult));
