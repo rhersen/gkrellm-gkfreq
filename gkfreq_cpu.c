@@ -60,7 +60,7 @@ update_plugin() {
     info[0] = 0;
     int freq[8] = { 0 };
 
-    int n = 0;
+    size_t n = 0;
     for (int i = 0; i < 8; ++i) {
       f = fopen(getFilename(i), "r");
 
@@ -76,7 +76,7 @@ update_plugin() {
       }
     }
 
-    formatFrequencies(info, freq, n);
+    formatFrequencies(info, 32, freq, n);
   }
 
   if (w == 0)

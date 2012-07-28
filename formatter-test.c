@@ -63,34 +63,53 @@ int main(void) {
     gettimeofday(&start, 0);
 
     char result[32];
+
     {
         int frequencies[8] = { 1000000, 800000, 1400000, 1200000 };
-        formatFrequencies(result, frequencies, 4);
+        formatFrequencies(result, 32, frequencies, 4);
         assertEqualsS(result, "1.4¹1.2¹1.0¹0.8¹");
     }
 
     {
         int frequencies[8] = { 800000, 800000, 800000, 800000 };
-        formatFrequencies(result, frequencies, 4);
+        formatFrequencies(result, 32, frequencies, 4);
         assertEqualsS(result, "0.8 GHz");
     }
 
     {
         int frequencies[8] = { 1400000, 800000, 800000, 800000 };
-        formatFrequencies(result, frequencies, 4);
+        formatFrequencies(result, 32, frequencies, 4);
         assertEqualsS(result, "1.4¹0.8³");
     }
 
     {
         int frequencies[8] = { 1400000, 1400000, 800000, 800000 };
-        formatFrequencies(result, frequencies, 4);
+        formatFrequencies(result, 32, frequencies, 4);
         assertEqualsS(result, "1.4²0.8²");
     }
 
     {
         int frequencies[8] = { 1400000, 1400000, 800000, 800000, 800000 };
-        formatFrequencies(result, frequencies, 4);
+        formatFrequencies(result, 32, frequencies, 4);
         assertEqualsS(result, "1.4²0.8²");
+    }
+
+    {
+        int frequencies[8] = { 1000000, 800000, 1400000, 1200000 };
+        formatFrequencies(result, 3, frequencies, 4);
+        assertEqualsS(result, "");
+    }
+
+    {
+        int frequencies[8] = { 1000000, 800000, 1400000, 1200000 };
+        formatFrequencies(result, 7, frequencies, 4);
+        assertEqualsS(result, "1.4¹");
+    }
+
+    {
+        int frequencies[8] = { 1000000, 800000, 1400000, 1200000 };
+        formatFrequencies(result, 11, frequencies, 4);
+        assertEqualsS(result, "1.4¹1.2¹");
     }
 
     printf("%f seconds\n", getElapsedSecondsSince(&start));

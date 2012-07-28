@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "formatter.h"
 
-void formatFrequencies(char* info, int* freq, int nCpus) {
+void formatFrequencies(char* buf, size_t bufsize, int* frequencies, size_t nCpus) {
     int less(const void* v1, const void* v2) {
         const int* p1 = v1;
         const int* p2 = v2;
@@ -10,10 +11,10 @@ void formatFrequencies(char* info, int* freq, int nCpus) {
     }
 
     void sameFrequency(int f) {
-        sprintf(info, "%.1f GHz", f * 1e-6);
+        sprintf(buf, "%.1f GHz", f * 1e-6);
     }
 
-    char* multiplicity(int n) {
+    char* superscript(int n) {
         if (n == 1) {
             return "¹";
         }
@@ -39,20 +40,32 @@ void formatFrequencies(char* info, int* freq, int nCpus) {
         return r;
     }
 
-    qsort(freq, nCpus, sizeof(int), less);
+    qsort(frequencies, nCpus, sizeof(int), less);
 
-    if (freq[0] == freq[nCpus - 1]) {
-        sameFrequency(freq[0]);
+    if (frequencies[0] == frequencies[nCpus - 1]) {
+        sameFrequency(frequencies[0]);
     } else {
         int i = 0;
-        info[0] = 0;
+        char* pos = buf;
+
+        buf[0] = 0;
 
         while (i < nCpus) {
-            int mult = getMultiplicity(freq + i, nCpus - i);
-            sprintf(info + strlen(info),
-                    "%.1f%s",
-                    freq[i] * 1e-6, multiplicity(mult));
+            int mult = getMultiplicity(frequencies + i, nCpus - i);
+            int remaining = bufsize - (pos - buf);
+            int required = snprintf(pos,
+                                    remaining,
+                                    "%.1f%s",
+                                    frequencies[i] * 1e-6, superscript(mult));
+
             i += mult;
+
+            if (remaining <= required) {
+                pos[0] = 0;
+                return;
+            } else {
+                pos += required;
+            }
         }
     }
 }
