@@ -31,11 +31,10 @@
  */
 
 #include <gkrellm2/gkrellm.h>
+#include "formatter.h"
 
-#define CONFIG_NAME "gkfreq_" CPU
-#define STYLE_NAME "gkfreq_" CPU
-#define DIR "/sys/devices/system/cpu/"
-#define CUR_FREQ "/cpufreq/scaling_cur_freq"
+#define CONFIG_NAME "gkfreq_cpus"
+#define STYLE_NAME "gkfreq_cpus"
 
 static GkrellmMonitor	*monitor;
 static GkrellmPanel	*panel;
@@ -48,21 +47,36 @@ static gchar  info[32];
 static void
 update_plugin() {
   void read_mhz() {
-    FILE *f;
-    if (!(f = fopen(DIR CPU CUR_FREQ, "r"))) {
-      snprintf(info, 32, "no " CPU);
-    }
-    else {
-      int i;
-      int n = fscanf(f, "%d", &i );
-      if (n != 1) {
-        snprintf(info, 32, "n/a MHz");
-      } else {
-        snprintf(info, 32, "%4.1f GHz", i * 1e-6);
-      }
+    char filename[64];
 
-      fclose(f);
+    char* getFilename(int i) {
+      sprintf(filename, "/sys/devices/system/cpu/cpu"
+              "%d"
+              "/cpufreq/scaling_cur_freq", i);
+      return filename;
     }
+
+    FILE *f;
+    info[0] = 0;
+    int freq[8] = { 0 };
+
+    int n = 0;
+    for (int i = 0; i < 8; ++i) {
+      f = fopen(getFilename(i), "r");
+
+      if (f) {
+        int khz;
+        int assigned = fscanf(f, "%d", &khz);
+        if (assigned == 1) {
+          freq[i] = khz;
+          n = i + 1;
+        }
+
+        fclose(f);
+      }
+    }
+
+    formatFrequencies(info, freq, n);
   }
 
   if (w == 0)
