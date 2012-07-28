@@ -13,10 +13,6 @@ void formatFrequencies(char* info, int* freq, int nCpus) {
         sprintf(info, "%.1f GHz", f * 1e-6);
     }
 
-    void oneDifferent(int one, int rest) {
-        sprintf(info, "%.1f¹%.1f³", one * 1e-6, rest * 1e-6);
-    }
-
     char* multiplicity(int n) {
         if (n == 1) {
             return "¹";
@@ -52,13 +48,11 @@ void formatFrequencies(char* info, int* freq, int nCpus) {
         info[0] = 0;
 
         while (i < nCpus) {
-            if (freq[i]) {
-                int mult = getMultiplicity(freq + i, nCpus - i);
-                sprintf(info + strlen(info),
-                        "%.1f%s",
-                        freq[i] * 1e-6, multiplicity(mult));
-                i += mult;
-            }
+            int mult = getMultiplicity(freq + i, nCpus - i);
+            sprintf(info + strlen(info),
+                    "%.1f%s",
+                    freq[i] * 1e-6, multiplicity(mult));
+            i += mult;
         }
     }
 }
