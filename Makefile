@@ -7,8 +7,11 @@ formatter.o: formatter.c
 gkfreq_cpus.o: gkfreq_cpu.c
 	gcc -fPIC -O2 -Wall -std=gnu1x `pkg-config gtk+-2.0 --cflags` -o gkfreq_cpus.o -c gkfreq_cpu.c
 
+test:
+	gcc -std=gnu1x -Wall formatter.c formatter-test.c -o formatter-test && ./formatter-test
+
 clean:
-	rm -rf *.o *.so a.out
+	rm -rf *.o *.so formatter-test
 
 install:
 	cp gkfreq*.so /usr/lib/gkrellm2/plugins/

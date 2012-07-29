@@ -14,20 +14,12 @@ void formatFrequencies(char* buf, size_t bufsize, int* frequencies, size_t nCpus
         sprintf(buf, "%.1f GHz", f * 1e-6);
     }
 
-    char* superscript(int n) {
-        if (n == 1) {
-            return "¹";
-        }
+    char* subscript(int mult) {
+        static char* subscript[] = {
+            "₊", "₁", "₂", "₃", "₄", "₅", "₆", "₇", "₈", "₉"
+        };
 
-        if (n == 2) {
-            return "²";
-        }
-
-        if (n == 3) {
-            return "³";
-        }
-
-        return "¨";
+        return subscript[mult > 0 && mult < 10 ? mult : 0];
     }
 
     int getMultiplicity(int* f, int max) {
@@ -56,7 +48,7 @@ void formatFrequencies(char* buf, size_t bufsize, int* frequencies, size_t nCpus
             int required = snprintf(pos,
                                     remaining,
                                     "%.1f%s",
-                                    frequencies[i] * 1e-6, superscript(mult));
+                                    frequencies[i] * 1e-6, subscript(mult));
 
             i += mult;
 

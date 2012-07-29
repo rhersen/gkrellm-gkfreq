@@ -67,7 +67,7 @@ int main(void) {
     {
         int frequencies[8] = { 1000000, 800000, 1400000, 1200000 };
         formatFrequencies(result, 32, frequencies, 4);
-        assertEqualsS(result, "1.4¹1.2¹1.0¹0.8¹");
+        assertEqualsS(result, "1.4₁1.2₁1.0₁0.8₁");
     }
 
     {
@@ -79,19 +79,19 @@ int main(void) {
     {
         int frequencies[8] = { 1400000, 800000, 800000, 800000 };
         formatFrequencies(result, 32, frequencies, 4);
-        assertEqualsS(result, "1.4¹0.8³");
+        assertEqualsS(result, "1.4₁0.8₃");
     }
 
     {
         int frequencies[8] = { 1400000, 1400000, 800000, 800000 };
         formatFrequencies(result, 32, frequencies, 4);
-        assertEqualsS(result, "1.4²0.8²");
+        assertEqualsS(result, "1.4₂0.8₂");
     }
 
     {
         int frequencies[8] = { 1400000, 1400000, 800000, 800000, 800000 };
         formatFrequencies(result, 32, frequencies, 4);
-        assertEqualsS(result, "1.4²0.8²");
+        assertEqualsS(result, "1.4₂0.8₂");
     }
 
     {
@@ -103,13 +103,25 @@ int main(void) {
     {
         int frequencies[8] = { 1000000, 800000, 1400000, 1200000 };
         formatFrequencies(result, 7, frequencies, 4);
-        assertEqualsS(result, "1.4¹");
+        assertEqualsS(result, "1.4₁");
     }
 
     {
         int frequencies[8] = { 1000000, 800000, 1400000, 1200000 };
-        formatFrequencies(result, 11, frequencies, 4);
-        assertEqualsS(result, "1.4¹1.2¹");
+        formatFrequencies(result, 14, frequencies, 4);
+        assertEqualsS(result, "1.4₁1.2₁");
+    }
+
+    {
+        int frequencies[16] = { 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1000000 };
+        formatFrequencies(result, 32, frequencies, 10);
+        assertEqualsS(result, "1.2₉1.0₁");
+    }
+
+    {
+        int frequencies[16] = { 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1200000, 1000000 };
+        formatFrequencies(result, 32, frequencies, 12);
+        assertEqualsS(result, "1.2₊1.0₁");
     }
 
     printf("%f seconds\n", getElapsedSecondsSince(&start));
