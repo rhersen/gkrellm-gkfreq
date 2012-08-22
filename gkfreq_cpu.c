@@ -57,11 +57,21 @@ update_plugin() {
         }
 
         FILE *f;
+
+        f = fopen("/sys/devices/system/cpu/online", "r");
+        int from, to;
+        if (fscanf(f, "%d-%d", &from, &to) != 2) {
+            sprintf(info, "no cpus online");
+            return;
+        }
+
+        fclose(f);
+
         info[0] = 0;
         int freq[8] = { 0 };
 
         size_t n = 0;
-        for (int i = 0; i < 8; ++i) {
+        for (int i = from; i <= to; ++i) {
             f = fopen(getFilename(i), "r");
 
             if (f) {
